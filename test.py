@@ -34,7 +34,27 @@ class Bird:
         self.vel = -10.5 #The bird has to jump upwards, top left of pygame window is (0,0) moving to the right increases x and moving down increases y
         self.tick_count=0 #Keeps track of when we last jumped
         self.height = self.y #Keeps track of where the bird jumped from/started moving from
- 
+    
+    def move(self):
+        self.tick_count+=1 #Represents time in the next line
+        d=self.vel*self.tick_count + 1.5*self.tick_count**2 #Calculates the displacement upwards using d = ut+0.5*a*t^2, a is 3 since a is positive the acceleration is downwards
+
+        if d>=16: #Dont move down too fast
+            d=16 
+        
+        if d<0: #Finetunes upward movement
+            d-=2
+        
+        self.y = self.y + d #Updating y direction
+
+        if d<0:
+            if self.tilt < self.MAX_ROTATION: #Tilt upwards if displacement is upwards
+                self.tilt=self.MAX_ROTATION
+        else:
+            if self.tilt>-90:   #Nosedive in other case
+                self.tilt-=self.ROT_VEL
+
+
 
 
 
